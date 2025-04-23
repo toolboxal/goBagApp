@@ -94,10 +94,10 @@ const InventoryPage = () => {
         options={{
           headerSearchBarOptions: {
             tintColor: theme.primary5,
-            textColor: theme.primary10,
+            textColor: theme.primary1,
             hintTextColor: theme.primary6,
             placeholder: 'search...',
-            barTintColor: theme.primary2,
+            barTintColor: theme.primary5,
             onChangeText: (event) => {
               const text = event.nativeEvent.text
               setSearchBarQuery(text)
@@ -269,12 +269,13 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   categoryContainer: {
-    marginBottom: 14,
+    marginBottom: 10,
   },
   categoryTitle: {
     fontSize: size.xxl,
     fontFamily: fonts.bold,
     marginBottom: 8,
+    paddingLeft: 5,
   },
   itemContainer: {
     marginBottom: 5,

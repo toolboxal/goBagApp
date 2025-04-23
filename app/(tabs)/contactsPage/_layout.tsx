@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { Stack } from 'expo-router'
-import { useTheme } from '@/providers/ThemeProvider'
 import { fonts, size } from '@/constants/font'
-const InventoryPageLayout = () => {
+import { useTheme } from '@/providers/ThemeProvider'
+import { Stack } from 'expo-router'
+import { StyleSheet, Text, View } from 'react-native'
+
+const ContactsLayout = () => {
   const { theme } = useTheme()
   return (
     <Stack>
       <Stack.Screen
         name="index"
         options={{
-          title: 'Inventory',
+          title: 'Contacts',
           presentation: 'card',
           headerLargeTitle: true,
           headerSearchBarOptions: {
@@ -36,5 +37,5 @@ const InventoryPageLayout = () => {
     </Stack>
   )
 }
-export default InventoryPageLayout
+export default ContactsLayout
 const styles = StyleSheet.create({})

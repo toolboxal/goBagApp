@@ -85,7 +85,9 @@ const InventoryModal = ({ openModal, setOpenModal, selectedItem }: Props) => {
             style={[styles.card, { backgroundColor: 'white' }]}
             onPress={(e) => e.stopPropagation()}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 3 }}
+            >
               <View style={{ flex: 1 }}>
                 <Text
                   style={{
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     padding: 12,
-    borderRadius: 10,
+    borderRadius: 30,
     flex: 1,
     alignItems: 'center',
   },

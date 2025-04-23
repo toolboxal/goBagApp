@@ -43,6 +43,12 @@
           "recordAudioAndroid": true
         }
       ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ],
       "expo-font",
       "expo-localization",
       "expo-sqlite"
