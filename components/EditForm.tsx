@@ -99,7 +99,7 @@ const Form = ({ selectedPerson }: Props) => {
   }
 
   const onSubmit = async (data: StoreItemFormData) => {
-    console.log('Validated form data:', data)
+    // console.log('Validated form data:', data)
 
     await db
       .update(storeItems)

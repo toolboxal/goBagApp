@@ -84,6 +84,16 @@ export default function RootLayout() {
               headerTintColor: theme.primary10,
             }}
           />
+          <Stack.Screen
+            name="contactsFormPage"
+            options={{
+              headerShown: true,
+              headerTitle: 'Add Contact',
+              headerStyle: { backgroundColor: theme.primary2 },
+              headerBackTitle: 'Back',
+              headerTintColor: theme.primary10,
+            }}
+          />
         </Stack>
         <Toaster richColors position="top-center" />
       </ThemeProvider>

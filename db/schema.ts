@@ -9,7 +9,9 @@ export const storeItems = sqliteTable('store_items', {
   dateExpiry: text('date_expiry'),
   category: text('category', {
     enum: ['food', 'medicine', 'supplies', 'clothing'],
-  }).default('food'),
+  })
+    .notNull()
+    .default('food'),
   notes: text('notes'),
   photoUrl: text('photo_url'),
 })
@@ -31,3 +33,50 @@ export type StoreItemFormData = Omit<
 export const storeItemsSelectSchema = createSelectSchema(storeItems)
 
 export type StoreItemSelect = z.infer<typeof storeItemsSelectSchema>
+
+export const contacts = sqliteTable('contacts', {
+  id: int().primaryKey({ autoIncrement: true }),
+  name: text().notNull(),
+  phoneNumber: text().notNull(),
+  email: text('email'),
+  address: text('address'),
+  cong: text('cong').notNull(),
+  fsGroup: text('fs_group'),
+  role: text('role', {
+    enum: ['pub', 'inactive', 'bs'],
+  })
+    .notNull()
+    .default('pub'),
+  emergencyPerson: text('emergency_person'),
+  emergencyPersonNumber: text('emergency_person_number'),
+  priority: text('priority', {
+    enum: ['low', 'medium', 'high', 'highest'],
+  })
+    .notNull()
+    .default('medium'),
+  accounted: int('accounted', { mode: 'boolean' }).notNull().default(false),
+})
+
+export const contactsInsertSchema = createInsertSchema(contacts, {
+  name: (schema) =>
+    schema
+      .min(1, { message: 'name cannot be blank' })
+      .max(25, { message: 'exceeds max length' }),
+  phoneNumber: (schema) =>
+    schema
+      .min(1, { message: 'cannot be blank' })
+      .max(15, { message: 'exceeds max length' }),
+  cong: (schema) =>
+    schema
+      .min(1, { message: 'cannot be blank' })
+      .max(30, { message: 'exceeds max length' }),
+})
+
+export type ContactFormData = Omit<
+  z.infer<typeof contactsInsertSchema>,
+  'role' | 'accounted' | 'priority'
+>
+
+export const contactsSelectSchema = createSelectSchema(contacts)
+
+export type contactsSelect = z.infer<typeof contactsSelectSchema>
