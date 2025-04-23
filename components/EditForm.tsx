@@ -8,9 +8,9 @@ import {
   View,
   Image,
   TouchableWithoutFeedback,
+  ScrollView,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
 } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,6 +20,7 @@ import {
   StoreItemFormData,
   storeItems,
   storeItemsInsertSchema,
+  StoreItemSelect,
 } from '@/db/schema'
 import { format, add, formatDistanceToNow } from 'date-fns'
 import FormDateModal from './FormDateModal'
@@ -32,6 +33,7 @@ import * as MediaLibrary from 'expo-media-library'
 import db from '@/db/db'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
+import { eq } from 'drizzle-orm'
 
 const ALBUM_NAME = 'GoBag Album'
 
@@ -43,18 +45,27 @@ const categoryArr = [
 ] as const
 type CategoryType = (typeof categoryArr)[number]
 
-const Form = () => {
+type Props = {
+  selectedPerson: StoreItemSelect
+}
+
+const Form = ({ selectedPerson }: Props) => {
   const today = new Date()
-  const [selectedCategory, setSelectedCategory] =
-    useState<CategoryType['type']>('food')
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoryType['type']
+  >(selectedPerson.category || 'food')
   const [openDateModal, setOpenDateModal] = useState(false)
-  const [dateExpiry, setDateExpiry] = useState(add(today, { months: 3 }))
+  const [dateExpiry, setDateExpiry] = useState(
+    selectedPerson.dateExpiry ? new Date(selectedPerson.dateExpiry) : new Date()
+  )
   const [durationCalc, setDurationCalc] = useState(
     formatDistanceToNow(new Date(dateExpiry))
   )
   const [permission, requestPermission] = useCameraPermissions()
   const [showCamera, setShowCamera] = useState(false)
-  const [photo, setPhoto] = useState<string | null>(null)
+  const [photo, setPhoto] = useState<string | null>(
+    selectedPerson.photoUrl || null
+  )
   const cameraRef = useRef<CameraView>(null)
 
   const queryClient = useQueryClient()
@@ -70,9 +81,9 @@ const Form = () => {
   } = useForm<StoreItemFormData>({
     resolver: zodResolver(storeItemsInsertSchema),
     defaultValues: {
-      name: '',
-      quantity: 1,
-      notes: '',
+      name: selectedPerson.name,
+      quantity: selectedPerson.quantity,
+      notes: selectedPerson.notes || '',
     },
   })
 
@@ -90,20 +101,23 @@ const Form = () => {
   const onSubmit = async (data: StoreItemFormData) => {
     console.log('Validated form data:', data)
 
-    await db.insert(storeItems).values({
-      name: data.name,
-      quantity: data.quantity,
-      dateExpiry: dateExpiry.toISOString(),
-      category: selectedCategory,
-      notes: data.notes,
-      photoUrl: photo,
-    })
+    await db
+      .update(storeItems)
+      .set({
+        name: data.name,
+        quantity: data.quantity,
+        dateExpiry: dateExpiry.toISOString(),
+        category: selectedCategory,
+        notes: data.notes,
+        photoUrl: photo,
+      })
+      .where(eq(storeItems.id, selectedPerson.id))
     reset()
     setPhoto(null)
     setDateExpiry(add(today, { months: 3 }))
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     queryClient.invalidateQueries({ queryKey: ['storeItems'] })
-    router.navigate('/(tabs)/inventoryPage')
+    router.back()
   }
   console.log('date expiry', dateExpiry)
   const handleCameraPress = async () => {
@@ -230,6 +244,7 @@ const Form = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -330,6 +345,7 @@ const Form = () => {
               </Pressable>
             ))}
           </View>
+
           <View style={styles.formContainer}>
             <Controller
               name="name"
@@ -481,10 +497,11 @@ const Form = () => {
               onPress={handleSubmit(onSubmit)}
             >
               <Text style={[styles.submitText, { color: theme.primary1 }]}>
-                Submit
+                Save Edit
               </Text>
             </Pressable>
           </View>
+
           <FormDateModal
             openDateModal={openDateModal}
             setOpenDateModal={setOpenDateModal}

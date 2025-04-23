@@ -14,6 +14,8 @@ export const themes = {
     primary9: colors.primary900,
     primary10: colors.primary950,
     warning: colors.warning,
+    warning2: colors.warning2,
+    warning3: colors.warning3,
   },
   dark: {
     textDark: colors.primary600,
@@ -28,5 +30,7 @@ export const themes = {
     primary9: colors.primary900,
     primary10: colors.primary950,
     warning: colors.warning,
+    warning2: colors.warning2,
+    warning3: colors.warning3,
   },
 }

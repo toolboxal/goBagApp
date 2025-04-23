@@ -1,6 +1,8 @@
 export const fonts = {
-  thin: 'Inter_400Thin',
+  light: 'Inter_300Light',
+  light_italic: 'Inter_300Light_Italic',
   regular: 'Inter_400Regular',
+  regular_italic: 'Inter_400Regular_Italic',
   medium: 'Inter_500Medium',
   semiBold: 'Inter_600SemiBold',
   bold: 'Inter_700Bold',

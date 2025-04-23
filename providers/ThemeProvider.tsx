@@ -16,6 +16,8 @@ export interface Theme {
   primary9: string
   primary10: string
   warning: string
+  warning2: string
+  warning3: string
   // Add other theme properties here as needed
 }
 

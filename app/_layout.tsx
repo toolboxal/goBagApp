@@ -1,9 +1,11 @@
-import { Slot, SplashScreen } from 'expo-router'
+import { Slot, Stack, SplashScreen } from 'expo-router'
 import {
   Inter_100Thin,
   Inter_200ExtraLight,
   Inter_300Light,
+  Inter_300Light_Italic,
   Inter_400Regular,
+  Inter_400Regular_Italic,
   Inter_500Medium,
   Inter_600SemiBold,
   Inter_700Bold,
@@ -17,8 +19,13 @@ import { migrate } from 'drizzle-orm/expo-sqlite/migrator'
 import migrations from '@/drizzle/migrations'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'sonner-native'
+import { useTheme } from '@/providers/ThemeProvider'
 
 SplashScreen.preventAutoHideAsync()
+
+const queryClient = new QueryClient()
 
 export default function RootLayout() {
   const [dbReady, setDbReady] = useState(false)
@@ -26,7 +33,9 @@ export default function RootLayout() {
     Inter_100Thin,
     Inter_200ExtraLight,
     Inter_300Light,
+    Inter_300Light_Italic,
     Inter_400Regular,
+    Inter_400Regular_Italic,
     Inter_500Medium,
     Inter_600SemiBold,
     Inter_700Bold,
@@ -59,9 +68,25 @@ export default function RootLayout() {
   } catch (error) {
     console.error('Failed to initialize Drizzle Studio:', error)
   }
+  const { theme } = useTheme()
   return (
-    <ThemeProvider>
-      <Slot />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <Stack initialRouteName="(tabs)" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="editFormPage"
+            options={{
+              headerShown: true,
+              headerTitle: 'Edit Item',
+              headerStyle: { backgroundColor: theme.primary2 },
+              headerBackTitle: 'Back',
+              headerTintColor: theme.primary10,
+            }}
+          />
+        </Stack>
+        <Toaster richColors position="top-center" />
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }

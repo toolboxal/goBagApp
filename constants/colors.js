@@ -10,5 +10,7 @@ export const colors = {
   primary800: '#454545',
   primary900: '#3d3d3d',
   primary950: '#000000',
-  warning: '#f43f5e',
+  warning: '#dc2626',
+  warning2: '#fee3e7',
+  warning3: '#fdb8c2',
 }
