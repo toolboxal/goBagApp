@@ -10,18 +10,36 @@ import {
 } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import { useQuery } from '@tanstack/react-query'
+import db from '@/db/db'
 
 const ContactsPage = () => {
   const { theme } = useTheme()
   const [refreshing, setRefreshing] = useState(false)
   const [searchBarQuery, setSearchBarQuery] = useState<string>('')
 
+  const { data: contactsList, refetch } = useQuery({
+    queryKey: ['contacts'],
+    queryFn: () => db.query.contacts.findMany(),
+  })
+
+  console.log(contactsList)
+
+  const groupedData = contactsList?.reduce((acc, contact) => {
+    const cong = contact.cong
+    if (!acc[cong]) {
+      acc[cong] = []
+    }
+    acc[cong].push(contact)
+    return acc
+  }, {} as Record<string, typeof contactsList>)
+
   const onRefresh = async () => {
     setRefreshing(true)
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    // await refetch()
+    await refetch()
     setRefreshing(false)
   }
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"

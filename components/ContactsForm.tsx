@@ -15,7 +15,7 @@ import { useTheme } from '@/providers/ThemeProvider'
 import { fonts, size } from '@/constants/font'
 import { ContactFormData, contacts, contactsSelect } from '@/db/schema'
 import * as DropdownMenu from 'zeego/dropdown-menu'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react-native'
 import db from '@/db/db'
 import { useQueryClient } from '@tanstack/react-query'
@@ -23,13 +23,16 @@ import * as Haptics from 'expo-haptics'
 import { useRouter } from 'expo-router'
 import PhoneInput, { ICountry } from 'react-native-international-phone-number'
 import { getLocales } from 'expo-localization'
+import { AppleMaps } from 'expo-maps'
+import * as Location from 'expo-location'
+import getCurrentLocation from '@/utils/getCurrentLoc'
 
 const ContactsForm = () => {
   const { regionCode } = getLocales()[0]
 
   const { theme } = useTheme()
   const [role, setRole] = useState<contactsSelect['role']>('pub')
-  const [priority, setPriority] = useState<contactsSelect['priority']>('medium')
+  const [priority, setPriority] = useState<contactsSelect['priority']>('normal')
   const [selectedCountry, setSelectedCountry] = useState<undefined | ICountry>(
     undefined
   )
@@ -37,35 +40,76 @@ const ContactsForm = () => {
   const [selectedCountryEmergencyContact, setSelectedCountryEmergencyContact] =
     useState<undefined | ICountry>(undefined)
   const [emergencyContactValue, setEmergencyContactValue] = useState<string>('')
+  const [geoCoords, setGeoCoords] = useState({ latitude: 0, longitude: 0 })
 
   const router = useRouter()
   const queryClient = useQueryClient()
+
+  useEffect(() => {
+    const getLocationPermission = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied')
+        return
+      }
+
+      const { latitude, longitude, getAddress } = await getCurrentLocation()
+
+      setGeoCoords({ latitude, longitude })
+    }
+    getLocationPermission()
+  }, [])
 
   const {
     control,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<ContactFormData>()
 
   const onSubmit = async (data: ContactFormData) => {
-    console.log('Validated form data:', data)
-    await db.insert(contacts).values({
-      name: data.name,
-      phoneNumber: data.phoneNumber,
-      email: data.email,
-      address: data.address,
-      cong: data.cong,
-      fsGroup: data.fsGroup,
-      emergencyPerson: data.emergencyPerson,
-      emergencyPersonNumber: data.emergencyPersonNumber,
-      role,
-      priority,
-    })
-    reset()
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
-    queryClient.invalidateQueries({ queryKey: ['contacts'] })
-    router.back()
+    // console.log('Validated form data:', data)
+    try {
+      const fullPhoneNumber = selectedCountry?.callingCode
+        ? `${selectedCountry.callingCode}${contactValue}`
+        : contactValue
+      const fullEmergencyNumber = selectedCountryEmergencyContact?.callingCode
+        ? `${selectedCountryEmergencyContact.callingCode}${emergencyContactValue}`
+        : emergencyContactValue
+      await db.insert(contacts).values({
+        name: data.name,
+        phoneNumber: fullPhoneNumber,
+        email: data.email,
+        address: data.address,
+        cong: data.cong,
+        fsGroup: data.fsGroup,
+        emergencyPerson: data.emergencyPerson,
+        emergencyPersonNumber: fullEmergencyNumber,
+        role,
+        priority,
+        latitude: geoCoords?.latitude || 0,
+        longitude: geoCoords?.longitude || 0,
+      })
+      reset()
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+      queryClient.invalidateQueries({ queryKey: ['contacts'] })
+      router.back()
+    } catch (error) {
+      console.error('Error inserting contact:', error)
+      alert('Failed to save contact. Please try again.')
+    }
+  }
+
+  const handleNewAddress = async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    const [address] = getValues(['address'])
+    const appendedAddress = `${address}, ${regionCode}`
+    console.log(appendedAddress)
+    const newGeoCode = await Location.geocodeAsync(appendedAddress)
+    const lat = newGeoCode[0].latitude
+    const lng = newGeoCode[0].longitude
+    setGeoCoords({ latitude: lat, longitude: lng })
   }
 
   return (
@@ -144,18 +188,10 @@ const ContactsForm = () => {
                 <DropdownMenu.Content>
                   <DropdownMenu.Item
                     key="low"
-                    onSelect={() => setPriority('low')}
+                    onSelect={() => setPriority('normal')}
                   >
                     <DropdownMenu.ItemTitle>
-                      priority: low
-                    </DropdownMenu.ItemTitle>
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item
-                    key="medium"
-                    onSelect={() => setPriority('medium')}
-                  >
-                    <DropdownMenu.ItemTitle>
-                      priority: medium
+                      priority: normal
                     </DropdownMenu.ItemTitle>
                   </DropdownMenu.Item>
                   <DropdownMenu.Item
@@ -167,11 +203,11 @@ const ContactsForm = () => {
                     </DropdownMenu.ItemTitle>
                   </DropdownMenu.Item>
                   <DropdownMenu.Item
-                    key="highest"
-                    onSelect={() => setPriority('highest')}
+                    key="critical"
+                    onSelect={() => setPriority('critical')}
                   >
                     <DropdownMenu.ItemTitle>
-                      priority: highest
+                      priority: critical
                     </DropdownMenu.ItemTitle>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
@@ -293,27 +329,80 @@ const ContactsForm = () => {
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <View
-                  style={[
-                    styles.textInputBox,
-                    { backgroundColor: theme.primary1 },
-                  ]}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    overflow: 'hidden',
+                    borderRadius: 12,
+                    backgroundColor: theme.primary5,
+                    marginBottom: 10,
+                  }}
                 >
-                  <TextInput
-                    onChangeText={onChange}
-                    value={value ?? ''}
-                    onBlur={onBlur}
-                    multiline
+                  <View
                     style={[
-                      styles.textInput,
+                      styles.textInputBox,
                       {
                         backgroundColor: theme.primary1,
-                        color: theme.primary7,
-                        textAlignVertical: 'top',
-                        height: 60,
+                        flex: 1,
+                        marginBottom: 0,
+                        borderRadius: 0,
                       },
                     ]}
-                    placeholder="address"
-                    placeholderTextColor={theme.primary3}
+                  >
+                    <TextInput
+                      onChangeText={onChange}
+                      value={value ?? ''}
+                      onBlur={onBlur}
+                      multiline
+                      style={[
+                        styles.textInput,
+                        {
+                          backgroundColor: theme.primary1,
+                          color: theme.primary7,
+                          textAlignVertical: 'top',
+                          height: 90,
+                        },
+                      ]}
+                      placeholder="address"
+                      placeholderTextColor={theme.primary3}
+                    />
+                    <Pressable
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: 8,
+                        borderRadius: 30,
+                        backgroundColor: theme.primary10,
+                      }}
+                      onPress={handleNewAddress}
+                    >
+                      <Text
+                        style={{
+                          fontFamily: fonts.regular,
+                          color: theme.primary1,
+                          fontSize: size.m,
+                        }}
+                      >
+                        locate
+                      </Text>
+                    </Pressable>
+                  </View>
+                  <AppleMaps.View
+                    style={{
+                      flex: 1,
+                      height: '100%',
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                    }}
+                    uiSettings={{
+                      compassEnabled: false,
+                      myLocationButtonEnabled: false,
+                      togglePitchEnabled: false,
+                      scaleBarEnabled: false,
+                    }}
+                    markers={[{ coordinates: geoCoords }]}
+                    cameraPosition={{ coordinates: geoCoords, zoom: 18 }}
                   />
                 </View>
               )}

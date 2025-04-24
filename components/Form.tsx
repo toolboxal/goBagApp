@@ -105,7 +105,7 @@ const Form = () => {
     queryClient.invalidateQueries({ queryKey: ['storeItems'] })
     router.navigate('/(tabs)/inventoryPage')
   }
-  console.log('date expiry', dateExpiry)
+  // console.log('date expiry', dateExpiry)
   const handleCameraPress = async () => {
     // Always request permission if not already granted
     if (!permission?.granted) {
@@ -170,7 +170,7 @@ const Form = () => {
     }
   }
 
-  console.log('photo uri ---> ', photo)
+  // console.log('photo uri ---> ', photo)
 
   if (showCamera) {
     return (

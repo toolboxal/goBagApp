@@ -44,9 +44,9 @@
         }
       ],
       [
-        "expo-contacts",
+        "expo-location",
         {
-          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ],
       "expo-font",

@@ -1,4 +1,4 @@
-import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { int, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
@@ -50,11 +50,13 @@ export const contacts = sqliteTable('contacts', {
   emergencyPerson: text('emergency_person'),
   emergencyPersonNumber: text('emergency_person_number'),
   priority: text('priority', {
-    enum: ['low', 'medium', 'high', 'highest'],
+    enum: ['normal', 'high', 'critical'],
   })
     .notNull()
-    .default('medium'),
+    .default('normal'),
   accounted: int('accounted', { mode: 'boolean' }).notNull().default(false),
+  latitude: real('latitude').default(0),
+  longitude: real('longitude').default(0),
 })
 
 export const contactsInsertSchema = createInsertSchema(contacts, {
@@ -62,10 +64,6 @@ export const contactsInsertSchema = createInsertSchema(contacts, {
     schema
       .min(1, { message: 'name cannot be blank' })
       .max(25, { message: 'exceeds max length' }),
-  phoneNumber: (schema) =>
-    schema
-      .min(1, { message: 'cannot be blank' })
-      .max(15, { message: 'exceeds max length' }),
   cong: (schema) =>
     schema
       .min(1, { message: 'cannot be blank' })
@@ -74,7 +72,7 @@ export const contactsInsertSchema = createInsertSchema(contacts, {
 
 export type ContactFormData = Omit<
   z.infer<typeof contactsInsertSchema>,
-  'role' | 'accounted' | 'priority'
+  'role' | 'accounted' | 'priority' | 'phoneNumber' | 'emergencyPersonNumber'
 >
 
 export const contactsSelectSchema = createSelectSchema(contacts)
