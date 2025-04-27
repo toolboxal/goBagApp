@@ -18,6 +18,9 @@ export interface Theme {
   warning: string
   warning2: string
   warning3: string
+  yellow: string
+  orange: string
+  red: string
   // Add other theme properties here as needed
 }
 

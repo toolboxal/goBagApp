@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTheme } from '@/providers/ThemeProvider'
@@ -27,8 +28,13 @@ import * as Haptics from 'expo-haptics'
 import { useRouter } from 'expo-router'
 import PhoneInput, { ICountry } from 'react-native-international-phone-number'
 import { getLocales } from 'expo-localization'
+import { eq } from 'drizzle-orm'
 
-const ContactsForm = () => {
+type props = {
+  selectedContact: contactsSelect
+}
+
+const EditContactForm = ({ selectedContact }: props) => {
   const { regionCode } = getLocales()[0]
 
   const { theme } = useTheme()
@@ -37,11 +43,25 @@ const ContactsForm = () => {
     'high',
     'critical',
   ]
-  const [priority, setPriority] = useState<contactsSelect['priority']>('normal')
+  const [priority, setPriority] = useState<contactsSelect['priority']>(
+    selectedContact.priority || 'normal'
+  )
   const [selectedCountry, setSelectedCountry] = useState<undefined | ICountry>(
     undefined
   )
-  const [contactValue, setContactValue] = useState<string>('')
+  const [contactValue, setContactValue] = useState<string>(
+    selectedContact.phoneNumber
+      ? selectedContact.phoneNumber.replace(/^\+\d+\s/, '')
+      : ''
+  )
+
+  useEffect(() => {
+    setContactValue(
+      selectedContact.phoneNumber
+        ? selectedContact.phoneNumber.replace(/^\+\d+\s/, '')
+        : ''
+    )
+  }, [selectedContact.phoneNumber])
 
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -50,10 +70,13 @@ const ContactsForm = () => {
     control,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactsInsertSchema),
+    defaultValues: {
+      name: selectedContact.name,
+      remarks: selectedContact.remarks || '',
+    },
   })
 
   const onSubmit = async (data: ContactFormData) => {
@@ -62,12 +85,15 @@ const ContactsForm = () => {
       const fullPhoneNumber = selectedCountry?.callingCode
         ? `${selectedCountry.callingCode} ${contactValue}`
         : contactValue
-      await db.insert(contacts).values({
-        name: data.name,
-        phoneNumber: fullPhoneNumber,
-        remarks: data.remarks,
-        priority,
-      })
+      await db
+        .update(contacts)
+        .set({
+          name: data.name,
+          phoneNumber: fullPhoneNumber,
+          remarks: data.remarks,
+          priority,
+        })
+        .where(eq(contacts.id, selectedContact.id))
       reset()
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
       queryClient.invalidateQueries({ queryKey: ['contacts'] })
@@ -226,7 +252,7 @@ const ContactsForm = () => {
     </KeyboardAvoidingView>
   )
 }
-export default ContactsForm
+export default EditContactForm
 const styles = StyleSheet.create({
   formContainer: {
     paddingHorizontal: 20,

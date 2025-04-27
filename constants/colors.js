@@ -13,4 +13,7 @@ export const colors = {
   warning: '#dc2626',
   warning2: '#fee3e7',
   warning3: '#fdb8c2',
+  yellow: '#fde047',
+  orange: '#d97706',
+  red: '#b91c1c',
 }

@@ -36,6 +36,20 @@
       "when": 1745471279928,
       "tag": "0004_boring_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1745506911688,
+      "tag": "0005_heavy_lila_cheney",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1745509075948,
+      "tag": "0006_bored_menace",
+      "breakpoints": true
     }
   ]
 }
