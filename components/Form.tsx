@@ -81,10 +81,10 @@ const Form = () => {
   }, [dateExpiry])
 
   const categoryIcons = {
-    food: <Salad size={30} color={theme.primary3} strokeWidth={2} />,
-    medicine: <Pill size={30} color={theme.primary3} strokeWidth={2} />,
-    supplies: <Flashlight size={30} color={theme.primary3} strokeWidth={2} />,
-    clothing: <Shirt size={30} color={theme.primary3} strokeWidth={2} />,
+    food: <Salad size={30} color={theme.accent4} strokeWidth={2} />,
+    medicine: <Pill size={30} color={theme.accent4} strokeWidth={2} />,
+    supplies: <Flashlight size={30} color={theme.accent4} strokeWidth={2} />,
+    clothing: <Shirt size={30} color={theme.accent4} strokeWidth={2} />,
   }
 
   const onSubmit = async (data: StoreItemFormData) => {
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: fonts.regular,
     fontSize: size.m,
-    textAlign: 'left',
+    textAlign: 'center',
   },
   formContainer: {
     paddingHorizontal: 20,

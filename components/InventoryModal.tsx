@@ -35,10 +35,10 @@ const InventoryModal = ({ openModal, setOpenModal, selectedItem }: Props) => {
   )
 
   const categoryIcons = {
-    food: <Salad size={50} color={theme.primary3} strokeWidth={2} />,
-    medicine: <Pill size={50} color={theme.primary3} strokeWidth={2} />,
-    supplies: <Flashlight size={50} color={theme.primary3} strokeWidth={2} />,
-    clothing: <Shirt size={50} color={theme.primary3} strokeWidth={2} />,
+    food: <Salad size={50} color={theme.accent4} strokeWidth={2} />,
+    medicine: <Pill size={50} color={theme.accent4} strokeWidth={2} />,
+    supplies: <Flashlight size={50} color={theme.accent4} strokeWidth={2} />,
+    clothing: <Shirt size={50} color={theme.accent4} strokeWidth={2} />,
   }
 
   const { mutate: deleteItem } = useMutation({

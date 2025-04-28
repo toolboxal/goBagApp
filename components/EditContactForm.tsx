@@ -110,7 +110,7 @@ const EditContactForm = ({ selectedContact }: props) => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       style={{ flex: 1 }}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView
           style={{ flex: 1 }}
           contentInsetAdjustmentBehavior="automatic"

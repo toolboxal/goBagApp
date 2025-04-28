@@ -1,4 +1,16 @@
 export const colors = {
+  accent50: '#ecfdf5',
+  accent100: '#d1fae4',
+  accent200: '#8ff0c2',
+  accent300: '#6ee7b5',
+  accent400: '#34d397',
+  accent500: '#10b97f',
+  accent600: '#059667',
+  accent700: '#047855',
+  accent800: '#065f45',
+  accent900: '#064e3a',
+  accent950: '#022c21',
+
   primary50: '#f6f6f6',
   primary100: '#e7e7e7',
   primary200: '#d1d1d1',

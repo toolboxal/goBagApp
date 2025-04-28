@@ -92,6 +92,7 @@ export default function RootLayout() {
               headerStyle: { backgroundColor: theme.primary2 },
               headerBackTitle: 'Back',
               headerTintColor: theme.primary10,
+              // presentation: 'modal',
             }}
           />
           <Stack.Screen
@@ -102,6 +103,29 @@ export default function RootLayout() {
               headerStyle: { backgroundColor: theme.primary2 },
               headerBackTitle: 'Back',
               headerTintColor: theme.primary10,
+              presentation: 'modal',
+            }}
+          />
+          <Stack.Screen
+            name="scenarioFormPage"
+            options={{
+              headerShown: true,
+              headerTitle: 'Add Scenario',
+              headerStyle: { backgroundColor: theme.primary2 },
+              headerBackTitle: 'Back',
+              headerTintColor: theme.primary10,
+              // presentation: 'modal',
+            }}
+          />
+          <Stack.Screen
+            name="editScenarioPage"
+            options={{
+              headerShown: true,
+              headerTitle: 'Edit Scenario',
+              headerStyle: { backgroundColor: theme.primary2 },
+              headerBackTitle: 'Back',
+              headerTintColor: theme.primary10,
+              presentation: 'modal',
             }}
           />
         </Stack>

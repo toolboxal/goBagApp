@@ -41,7 +41,7 @@ const ContactsLayout = () => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                paddingRight: 5,
+                // paddingRight: 5,
                 gap: 1,
               }}
               onPress={() => {

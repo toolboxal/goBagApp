@@ -50,7 +50,6 @@ const ContactsForm = () => {
     control,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactsInsertSchema),

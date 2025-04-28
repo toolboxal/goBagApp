@@ -1,6 +1,6 @@
 import { useTheme } from '@/providers/ThemeProvider'
 import { Stack } from 'expo-router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Pressable,
   RefreshControl,
@@ -36,7 +36,11 @@ const ContactsPage = () => {
     queryFn: () => db.query.contacts.findMany(),
   })
 
-  const sortedContacts = contactsList?.sort((a, b) => {
+  const filteredData = contactsList?.filter((item) => {
+    return item.name.toLowerCase().includes(searchBarQuery.toLowerCase())
+  })
+
+  const sortedContacts = filteredData?.sort((a, b) => {
     const nameA = a.priority.toLowerCase()
     const nameB = b.priority.toLowerCase()
     return nameA.localeCompare(nameB)
@@ -58,7 +62,7 @@ const ContactsPage = () => {
             textColor: theme.primary1,
             hintTextColor: theme.primary6,
             placeholder: 'search...',
-            barTintColor: theme.primary5,
+            barTintColor: theme.primary4,
             onChangeText: (event) => {
               const text = event.nativeEvent.text
               setSearchBarQuery(text)
@@ -82,71 +86,66 @@ const ContactsPage = () => {
             colors={[theme.primary5]}
           />
         }
+        showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
       >
         <View
-          style={[
-            {
-              backgroundColor: theme.primary5,
-              padding: 12,
-              borderRadius: 12,
-              marginBottom: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            },
-          ]}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: theme.primary1,
+            padding: 12,
+            borderRadius: 12,
+            marginBottom: 15,
+          }}
         >
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              gap: 10,
+              gap: 5,
+              marginBottom: 5,
             }}
           >
             <Text
               style={{
-                fontFamily: fonts.regular,
+                fontFamily: fonts.medium,
                 fontSize: size.l,
-                color: theme.primary1,
+                color: theme.primary10,
               }}
             >
               total contacts
             </Text>
             <Text
               style={{
-                fontFamily: fonts.regular,
-                fontSize: size.l,
-                color: theme.primary1,
+                fontFamily: fonts.bold,
+                fontSize: size.xl,
+                color: theme.accent8,
               }}
             >
-              {sortedContacts?.length}
+              {sortedContacts?.length || 0}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
-            }}
-          >
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
             <Text
               style={{
-                fontFamily: fonts.regular,
+                fontFamily: fonts.medium,
                 fontSize: size.l,
-                color: theme.primary1,
+                color: theme.primary10,
               }}
             >
-              accounted for
+              total accounted for
             </Text>
             <Text
               style={{
-                fontFamily: fonts.regular,
-                fontSize: size.l,
-                color: theme.primary1,
+                fontFamily: fonts.bold,
+                fontSize: size.xl,
+                color: theme.accent8,
               }}
             >
-              {sortedContacts?.filter((contact) => contact.accounted).length}
+              {sortedContacts?.filter((contact) => contact.accounted).length ||
+                0}
             </Text>
           </View>
         </View>
@@ -261,5 +260,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 10,
     flexDirection: 'row',
+  },
+  stickyHeader: {
+    backgroundColor: 'white',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginBottom: 10,
   },
 })

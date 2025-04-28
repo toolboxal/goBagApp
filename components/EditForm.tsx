@@ -571,7 +571,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: fonts.regular,
     fontSize: size.m,
-    textAlign: 'left',
+    textAlign: 'center',
   },
   formContainer: {
     paddingHorizontal: 20,

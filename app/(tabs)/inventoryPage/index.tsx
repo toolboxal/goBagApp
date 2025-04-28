@@ -41,10 +41,10 @@ const InventoryPage = () => {
   })
 
   const categoryIcons = {
-    food: <Salad size={20} color={theme.primary3} strokeWidth={2} />,
-    medicine: <Pill size={20} color={theme.primary3} strokeWidth={2} />,
-    supplies: <Flashlight size={20} color={theme.primary3} strokeWidth={2} />,
-    clothing: <Shirt size={20} color={theme.primary3} strokeWidth={2} />,
+    food: <Salad size={20} color={theme.accent4} strokeWidth={2} />,
+    medicine: <Pill size={20} color={theme.accent4} strokeWidth={2} />,
+    supplies: <Flashlight size={20} color={theme.accent4} strokeWidth={2} />,
+    clothing: <Shirt size={20} color={theme.accent4} strokeWidth={2} />,
   }
 
   // Group data by category
@@ -92,12 +92,13 @@ const InventoryPage = () => {
     >
       <Stack.Screen
         options={{
+          headerTitle: 'Go Bag',
           headerSearchBarOptions: {
             tintColor: theme.primary5,
             textColor: theme.primary1,
             hintTextColor: theme.primary6,
             placeholder: 'search...',
-            barTintColor: theme.primary5,
+            barTintColor: theme.primary4,
             onChangeText: (event) => {
               const text = event.nativeEvent.text
               setSearchBarQuery(text)

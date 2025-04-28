@@ -19,4 +19,5 @@ export const size = {
   xl: 18,
   xxl: 20,
   xxxl: 24,
+  xxxxl: 32,
 }

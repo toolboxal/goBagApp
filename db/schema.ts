@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
@@ -63,3 +64,24 @@ export type ContactFormData = Omit<
 export const contactsSelectSchema = createSelectSchema(contacts)
 
 export type contactsSelect = z.infer<typeof contactsSelectSchema>
+
+export const scenarios = sqliteTable('scenarios', {
+  id: int().primaryKey({ autoIncrement: true }),
+  eventName: text('event_name').notNull(),
+  remarks: text('remarks').notNull(),
+})
+
+export const scenarioInsertSchema = createInsertSchema(scenarios, {
+  eventName: (schema) =>
+    schema
+      .min(1, { message: 'event cannot be blank' })
+      .max(25, { message: 'exceeds max length' }),
+  remarks: (schema) =>
+    schema
+      .min(1, { message: 'remarks cannot be blank' })
+      .max(1000, { message: 'exceeds max length' }),
+})
+
+export const scenarioSelectSchema = createSelectSchema(scenarios)
+
+export type scenarioType = z.infer<typeof scenarioInsertSchema>
