@@ -22,7 +22,7 @@ import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner-native'
 import { useTheme } from '@/providers/ThemeProvider'
-import { Pressable, Text } from 'react-native'
+import { Pressable, Text, TextInput } from 'react-native'
 import { fonts, size } from '@/constants/font'
 import { storage } from '@/storage/storage'
 import { contacts, scenarios, storeItems } from '@/db/schema'
@@ -54,9 +54,19 @@ export default function RootLayout() {
     async function initializeDatabase() {
       try {
         await migrate(db, migrations)
-        setDbReady(true)
+
+        if ((Text as any).defaultProps == null) (Text as any).defaultProps = {}
+        ;(Text as any).defaultProps.allowFontScaling = false
+
+        if ((TextInput as any).defaultProps == null)
+          (TextInput as any).defaultProps = {}
+        ;(TextInput as any).defaultProps.allowFontScaling = false
+
+        await new Promise((resolve) => setTimeout(resolve, 2000))
       } catch (err) {
         console.error('Database setup failed:', err)
+      } finally {
+        setDbReady(true)
       }
     }
     initializeDatabase()

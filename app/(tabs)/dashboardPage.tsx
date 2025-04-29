@@ -157,7 +157,7 @@ const dashboardPage = () => {
               <Text
                 style={{
                   fontFamily: fonts.light,
-                  fontSize: size.m,
+                  fontSize: size.s,
                   color: theme.primary7,
                 }}
               >
@@ -193,7 +193,7 @@ const dashboardPage = () => {
           <Text
             style={{
               fontFamily: fonts.light,
-              fontSize: size.m,
+              fontSize: size.s,
               color: theme.primary7,
             }}
           >
@@ -225,7 +225,7 @@ const dashboardPage = () => {
           <Text
             style={{
               fontFamily: fonts.light,
-              fontSize: size.m,
+              fontSize: size.s,
               color: theme.primary7,
             }}
           >
@@ -257,7 +257,7 @@ const dashboardPage = () => {
           <Text
             style={{
               fontFamily: fonts.light,
-              fontSize: size.m,
+              fontSize: size.s,
               color: theme.primary7,
             }}
           >
