@@ -1,4 +1,4 @@
-import { Slot, Stack, SplashScreen } from 'expo-router'
+import { Stack, SplashScreen, useRouter } from 'expo-router'
 import {
   Inter_100Thin,
   Inter_200ExtraLight,
@@ -22,6 +22,11 @@ import { useDrizzleStudio } from 'expo-drizzle-studio-plugin'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner-native'
 import { useTheme } from '@/providers/ThemeProvider'
+import { Pressable, Text } from 'react-native'
+import { fonts, size } from '@/constants/font'
+import { storage } from '@/storage/storage'
+import { contacts, scenarios, storeItems } from '@/db/schema'
+import { storeItemsSeed, scenarioSeed, contactsSeed } from '@/db/seeds'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -29,6 +34,8 @@ const queryClient = new QueryClient()
 
 export default function RootLayout() {
   const [dbReady, setDbReady] = useState(false)
+  const [isFirstLaunch, setIsFirstLaunch] = useState(false)
+  const router = useRouter()
   const [loaded, error] = useFonts({
     Inter_100Thin,
     Inter_200ExtraLight,
@@ -56,10 +63,39 @@ export default function RootLayout() {
   }, [])
 
   useEffect(() => {
+    const checkFirstLaunch = () => {
+      try {
+        const hasLaunched = storage.getBoolean('hasFirstLaunched')
+        if (hasLaunched === undefined || hasLaunched === false) {
+          setIsFirstLaunch(true)
+          storage.set('hasFirstLaunched', true)
+        } else {
+          setIsFirstLaunch(false)
+        }
+      } catch (error) {
+        console.error('Error checking first launch:', error)
+      }
+    }
+    checkFirstLaunch()
+  }, [dbReady])
+
+  useEffect(() => {
+    if (isFirstLaunch) {
+      const seedData = async () => {
+        await db.insert(storeItems).values([...storeItemsSeed])
+        await db.insert(contacts).values([...contactsSeed])
+        await db.insert(scenarios).values([...scenarioSeed])
+        console.log('Data seeded for first launch')
+      }
+      seedData()
+    }
+  }, [isFirstLaunch, dbReady])
+
+  useEffect(() => {
     if (dbReady && (loaded || error)) {
       SplashScreen.hideAsync()
     }
-  }, [loaded, error])
+  }, [loaded, error, dbReady])
 
   try {
     console.log('Initializing Drizzle Studio...')
@@ -104,6 +140,23 @@ export default function RootLayout() {
               headerBackTitle: 'Back',
               headerTintColor: theme.primary10,
               presentation: 'modal',
+              headerRight: () => (
+                <Pressable
+                  onPress={() => {
+                    router.dismiss()
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: theme.primary10,
+                      fontFamily: fonts.regular,
+                      fontSize: size.l,
+                    }}
+                  >
+                    close
+                  </Text>
+                </Pressable>
+              ),
             }}
           />
           <Stack.Screen
@@ -126,6 +179,43 @@ export default function RootLayout() {
               headerBackTitle: 'Back',
               headerTintColor: theme.primary10,
               presentation: 'modal',
+              headerRight: () => (
+                <Pressable
+                  onPress={() => {
+                    router.dismiss()
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: theme.primary10,
+                      fontFamily: fonts.regular,
+                      fontSize: size.l,
+                    }}
+                  >
+                    close
+                  </Text>
+                </Pressable>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="settingsPage"
+            options={{
+              headerShown: true,
+              headerTitle: 'Settings',
+              headerStyle: { backgroundColor: theme.primary2 },
+              headerBackTitle: 'Back',
+              headerTintColor: theme.primary10,
+            }}
+          />
+          <Stack.Screen
+            name="disclaimerPage"
+            options={{
+              headerShown: true,
+              headerTitle: 'Disclaimer',
+              headerStyle: { backgroundColor: theme.primary2 },
+              headerBackTitle: 'Back',
+              headerTintColor: theme.primary10,
             }}
           />
         </Stack>

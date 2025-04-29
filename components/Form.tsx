@@ -81,10 +81,10 @@ const Form = () => {
   }, [dateExpiry])
 
   const categoryIcons = {
-    food: <Salad size={30} color={theme.accent4} strokeWidth={2} />,
-    medicine: <Pill size={30} color={theme.accent4} strokeWidth={2} />,
-    supplies: <Flashlight size={30} color={theme.accent4} strokeWidth={2} />,
-    clothing: <Shirt size={30} color={theme.accent4} strokeWidth={2} />,
+    food: <Salad size={30} color={theme.accent6} strokeWidth={2} />,
+    medicine: <Pill size={30} color={theme.accent6} strokeWidth={2} />,
+    supplies: <Flashlight size={30} color={theme.accent6} strokeWidth={2} />,
+    clothing: <Shirt size={30} color={theme.accent6} strokeWidth={2} />,
   }
 
   const onSubmit = async (data: StoreItemFormData) => {
@@ -423,16 +423,14 @@ const Form = () => {
                     >
                       <TextInput
                         onChangeText={(text) => {
-                          if (text.includes(',')) return
-                          const numValue = parseInt(text, 10)
-                          if (!isNaN(numValue) && numValue > 0) {
+                          if (text === '') {
+                            onChange(0)
+                          } else {
+                            const numValue = parseInt(text)
                             onChange(numValue)
-                          } else if (text === '') {
-                            onChange('') // allow clearing the field
                           }
-                          // If 0 or negative, do nothing (keeps previous value)
                         }}
-                        value={value !== undefined ? value.toString() : ''}
+                        value={value === 0 ? '' : value.toString()}
                         onBlur={onBlur}
                         style={[
                           styles.textInput,

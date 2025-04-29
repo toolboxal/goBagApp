@@ -1,7 +1,7 @@
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View, Text } from 'react-native'
 import { Tabs } from 'expo-router'
 import * as Haptics from 'expo-haptics'
-import { LayoutDashboard } from 'lucide-react-native'
+import { LayoutDashboard, Plus } from 'lucide-react-native'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { fonts, size } from '@/constants/font'
 import { useTheme } from '@/providers/ThemeProvider'
@@ -10,16 +10,17 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import Entypo from '@expo/vector-icons/Entypo'
+import { useRouter } from 'expo-router'
 
 const TabsLayout = () => {
   const { theme } = useTheme()
   const { bottom } = useSafeAreaInsets()
+  const router = useRouter()
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
-
         tabBarLabelStyle: {
           fontFamily: fonts.regular,
           fontSize: size.xs,
@@ -56,7 +57,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="inventoryPage"
         options={{
-          title: 'Go Bag',
+          title: 'go bag',
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name="bag-suitcase"

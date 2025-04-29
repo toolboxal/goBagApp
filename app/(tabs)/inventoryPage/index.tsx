@@ -41,10 +41,10 @@ const InventoryPage = () => {
   })
 
   const categoryIcons = {
-    food: <Salad size={20} color={theme.accent4} strokeWidth={2} />,
-    medicine: <Pill size={20} color={theme.accent4} strokeWidth={2} />,
-    supplies: <Flashlight size={20} color={theme.accent4} strokeWidth={2} />,
-    clothing: <Shirt size={20} color={theme.accent4} strokeWidth={2} />,
+    food: <Salad size={20} color={theme.accent6} strokeWidth={2} />,
+    medicine: <Pill size={20} color={theme.accent6} strokeWidth={2} />,
+    supplies: <Flashlight size={20} color={theme.accent6} strokeWidth={2} />,
+    clothing: <Shirt size={20} color={theme.accent6} strokeWidth={2} />,
   }
 
   // Group data by category
@@ -162,7 +162,7 @@ const InventoryPage = () => {
                           backgroundColor:
                             diffInDays <= 0
                               ? theme.warning3
-                              : diffInDays <= 7
+                              : diffInDays < 30
                               ? theme.warning2
                               : theme.primary1,
                         },
