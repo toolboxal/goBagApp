@@ -48,7 +48,7 @@ const TabsLayout = () => {
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name="view-dashboard"
-              size={30}
+              size={29}
               color={focused ? theme.accent8 : theme.primary10}
             />
           ),
@@ -78,7 +78,7 @@ const TabsLayout = () => {
                 width: 50,
                 aspectRatio: 1,
                 borderRadius: 100,
-                backgroundColor: theme.primary10,
+                backgroundColor: focused ? theme.accent8 : theme.primary10,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -96,7 +96,7 @@ const TabsLayout = () => {
           tabBarIcon: ({ focused }) => (
             <FontAwesome
               name="users"
-              size={23}
+              size={22}
               color={focused ? theme.accent8 : theme.primary10}
             />
           ),
@@ -109,7 +109,7 @@ const TabsLayout = () => {
           tabBarIcon: ({ focused }) => (
             <FontAwesome6
               name="house-fire"
-              size={23}
+              size={22}
               color={focused ? theme.accent8 : theme.primary10}
             />
           ),
