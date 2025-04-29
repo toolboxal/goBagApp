@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "goBagApp",
+    "name": "preciousLives",
     "slug": "goBagApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,14 +10,17 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.alvindevapps.goBagApp"
+      "bundleIdentifier": "com.toolboxal.goBagApp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#EB957E"
       },
-      "package": "com.alvindevapps.goBagApp",
+      "package": "com.toolboxal.goBagApp",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
@@ -35,7 +38,7 @@
         {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
-          "resizeMode": "contain",
+          "resizeMode": "cover",
           "backgroundColor": "#EB957E"
         }
       ],

@@ -161,8 +161,8 @@ const ContactsPage = () => {
             <View style={{ flex: 3 }}>
               <Text
                 style={{
-                  fontFamily: fonts.medium,
-                  fontSize: size.xl,
+                  fontFamily: fonts.semiBold,
+                  fontSize: size.l,
                   color: theme.primary10,
                 }}
               >

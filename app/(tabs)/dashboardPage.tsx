@@ -1,5 +1,4 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useQuery } from '@tanstack/react-query'
 import { useTheme } from '@/providers/ThemeProvider'
 import { fonts, size } from '@/constants/font'
@@ -7,7 +6,7 @@ import db from '@/db/db'
 import { Salad, Flashlight, Pill, Shirt, Plus } from 'lucide-react-native'
 import { Tabs, useRouter } from 'expo-router'
 import * as Haptics from 'expo-haptics'
-import { Settings } from 'lucide-react-native'
+import { differenceInDays } from 'date-fns'
 
 const categoryArr = [
   { type: 'food', label: 'food &\nwater' },
@@ -52,39 +51,33 @@ const dashboardPage = () => {
 
   const expiringSoon = data.filter((item) => {
     if (item.dateExpiry && item.category === 'food') {
-      const expiryDate = new Date(item.dateExpiry)
-      const now = new Date()
-      // Consider items expiring within 30 days but not yet expired
-      const thirtyDaysFromNow = new Date(
-        now.getTime() + 30 * 24 * 60 * 60 * 1000
+      const diffInDays = differenceInDays(
+        new Date(item.dateExpiry!),
+        new Date()
       )
-      return (
-        !isNaN(expiryDate.getTime()) &&
-        expiryDate > now &&
-        expiryDate <= thirtyDaysFromNow
-      )
+      return diffInDays <= 30 && diffInDays > 0
     }
     return false
   })
 
   const expired = data.filter((item) => {
     if (item.dateExpiry && item.category === 'food') {
-      const expiryDate = new Date(item.dateExpiry)
-      const now = new Date()
-      return expiryDate <= now
+      const diffInDays = differenceInDays(
+        new Date(item.dateExpiry!),
+        new Date()
+      )
+      return diffInDays <= 0
     }
     return false
   })
 
   const toReplaceSoon = data.filter((item) => {
     if (item.dateExpiry && item.category !== 'food') {
-      const expiryDate = new Date(item.dateExpiry)
-      const now = new Date()
-      // Consider items expiring within 30 days but not yet expired
-      const thirtyDaysFromNow = new Date(
-        now.getTime() + 30 * 24 * 60 * 60 * 1000
+      const diffInDays = differenceInDays(
+        new Date(item.dateExpiry!),
+        new Date()
       )
-      return !isNaN(expiryDate.getTime()) && expiryDate <= thirtyDaysFromNow
+      return diffInDays <= 30
     }
     return false
   })
