@@ -17,6 +17,8 @@ import { useRouter } from 'expo-router'
 import { scenarioInsertSchema, scenarios, scenarioType } from '@/db/schema'
 import db from '@/db/db'
 import { eq } from 'drizzle-orm'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 type props = {
   selectedItem: scenarioType
@@ -53,6 +55,7 @@ const EditScenarioForm = ({ selectedItem }: props) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     queryClient.invalidateQueries({ queryKey: ['scenarios'] })
     router.back()
+    toast.custom(<CustomToastMsg message="edit saved" />)
   }
 
   const { mutate: deleteItem } = useMutation({

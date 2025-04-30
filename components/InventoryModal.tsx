@@ -17,6 +17,8 @@ import db from '@/db/db'
 import { eq } from 'drizzle-orm'
 import * as Haptics from 'expo-haptics'
 import { useRouter } from 'expo-router'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 type Props = {
   openModal: boolean
@@ -55,6 +57,7 @@ const InventoryModal = ({ openModal, setOpenModal, selectedItem }: Props) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     deleteItem(id)
     setOpenModal(false)
+    toast.custom(<CustomToastMsg message="item successfully deleted" />)
   }
 
   const handleEdit = (id: number) => {
@@ -102,7 +105,7 @@ const InventoryModal = ({ openModal, setOpenModal, selectedItem }: Props) => {
                 <Text
                   style={{
                     fontFamily: fonts.medium,
-                    fontSize: size.l,
+                    fontSize: size.m,
                     color: diffInDays <= 0 ? theme.warning : theme.primary6,
                   }}
                 >

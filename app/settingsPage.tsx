@@ -18,6 +18,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import db from '@/db/db'
 import { contacts, scenarios, storeItems } from '@/db/schema'
 import Feather from '@expo/vector-icons/Feather'
+import { toast } from 'sonner-native'
+import CustomToastMsg from '@/components/CustomToastMsg'
 
 const settingsPage = () => {
   const { theme } = useTheme()
@@ -45,6 +47,7 @@ const settingsPage = () => {
           queryClient.invalidateQueries({
             queryKey: ['storeItems'],
           })
+          toast.custom(<CustomToastMsg message="go bag cleared completely" />)
         },
         style: 'destructive',
       },
@@ -74,6 +77,7 @@ const settingsPage = () => {
           queryClient.invalidateQueries({
             queryKey: ['scenarios'],
           })
+          toast.custom(<CustomToastMsg message="all data completely deleted" />)
         },
         style: 'destructive',
       },
@@ -91,8 +95,8 @@ const settingsPage = () => {
       queryClient.invalidateQueries({
         queryKey: ['scenarios'],
       })
-      // toast.custom(<CustomToast message="Data restored successfully" />)
       router.dismiss()
+      toast.custom(<CustomToastMsg message="data restored successfully" />)
     }
   }
 

@@ -1,12 +1,6 @@
 import { fonts, size } from '@/constants/font'
-import {
-  contacts,
-  contactsSelect,
-  storeItems,
-  StoreItemSelect,
-} from '@/db/schema'
+import { contacts, contactsSelect } from '@/db/schema'
 import { useTheme } from '@/providers/ThemeProvider'
-import { differenceInDays, formatDistanceToNow } from 'date-fns'
 import {
   StyleSheet,
   Text,
@@ -16,7 +10,6 @@ import {
   Alert,
   Pressable,
 } from 'react-native'
-import { Salad, Flashlight, Pill, Shirt } from 'lucide-react-native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import db from '@/db/db'
 import { eq } from 'drizzle-orm'
@@ -24,6 +17,8 @@ import * as Haptics from 'expo-haptics'
 import { useRouter } from 'expo-router'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import * as Linking from 'expo-linking'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 type Props = {
   openModal: boolean
@@ -57,6 +52,7 @@ const InventoryModal = ({ openModal, setOpenModal, selectedItem }: Props) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     deleteItem(id)
     setOpenModal(false)
+    toast.custom(<CustomToastMsg message="contact successfully deleted" />)
   }
 
   const handleEdit = (id: number) => {

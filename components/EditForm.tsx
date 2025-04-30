@@ -34,6 +34,8 @@ import db from '@/db/db'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { eq } from 'drizzle-orm'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 const ALBUM_NAME = 'PreciousLives Album'
 
@@ -118,6 +120,7 @@ const Form = ({ selectedPerson }: Props) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     queryClient.invalidateQueries({ queryKey: ['storeItems'] })
     router.back()
+    toast.custom(<CustomToastMsg message="edit saved" />)
   }
   console.log('date expiry', dateExpiry)
   const handleCameraPress = async () => {

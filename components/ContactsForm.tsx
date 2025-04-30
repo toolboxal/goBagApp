@@ -27,6 +27,8 @@ import * as Haptics from 'expo-haptics'
 import { useRouter } from 'expo-router'
 import PhoneInput, { ICountry } from 'react-native-international-phone-number'
 import { getLocales } from 'expo-localization'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 const ContactsForm = () => {
   const { regionCode } = getLocales()[0]
@@ -71,6 +73,9 @@ const ContactsForm = () => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
       queryClient.invalidateQueries({ queryKey: ['contacts'] })
       router.back()
+      toast.custom(
+        <CustomToastMsg message={`contact for ${data.name} created`} />
+      )
     } catch (error) {
       console.error('Error inserting contact:', error)
       alert('Failed to save contact. Please try again.')

@@ -29,6 +29,8 @@ import { useRouter } from 'expo-router'
 import PhoneInput, { ICountry } from 'react-native-international-phone-number'
 import { getLocales } from 'expo-localization'
 import { eq } from 'drizzle-orm'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 type props = {
   selectedContact: contactsSelect
@@ -98,6 +100,7 @@ const EditContactForm = ({ selectedContact }: props) => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
       queryClient.invalidateQueries({ queryKey: ['contacts'] })
       router.back()
+      toast.custom(<CustomToastMsg message="edit saved" />)
     } catch (error) {
       console.error('Error inserting contact:', error)
       alert('Failed to save contact. Please try again.')

@@ -212,7 +212,7 @@ const InventoryPage = () => {
                             },
                           ]}
                         >
-                          {item.notes && item.notes.length > 20
+                          {item.notes && item.notes.length > 30
                             ? item.notes.slice(0, 30) + '...'
                             : item.notes
                             ? item.notes

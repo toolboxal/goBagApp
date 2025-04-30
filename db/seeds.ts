@@ -30,11 +30,11 @@ const phoneExtension = regionCode
 
 export const storeItemsSeed: storeItemSeed[] = [
   {
-    name: 'Nuts',
-    quantity: 3,
+    name: 'Cereal Bars',
+    quantity: 5,
     dateExpiry: add(new Date(), { months: 6 }).toISOString(),
     category: 'food',
-    notes: '3 packets of mixed trail nuts',
+    notes: '5 honey chocolate bars.',
     photoUrl: null,
   },
   {
@@ -50,7 +50,15 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 2,
     dateExpiry: add(new Date(), { months: 24 }).toISOString(),
     category: 'food',
-    notes: '400g tuna in brine',
+    notes: '200g tuna in olive oil.',
+    photoUrl: null,
+  },
+  {
+    name: 'Chilli Sauce',
+    quantity: 1,
+    dateExpiry: add(new Date(), { weeks: 5 }).toISOString(),
+    category: 'food',
+    notes: "Simply can't live without it.",
     photoUrl: null,
   },
   {

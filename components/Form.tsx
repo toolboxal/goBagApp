@@ -32,6 +32,8 @@ import * as MediaLibrary from 'expo-media-library'
 import db from '@/db/db'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 const ALBUM_NAME = 'GoBag Album'
 
@@ -104,6 +106,7 @@ const Form = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     queryClient.invalidateQueries({ queryKey: ['storeItems'] })
     router.navigate('/(tabs)/inventoryPage')
+    toast.custom(<CustomToastMsg message="item added to your go bag" />)
   }
   // console.log('date expiry', dateExpiry)
   const handleCameraPress = async () => {

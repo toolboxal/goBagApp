@@ -16,6 +16,8 @@ import * as Haptics from 'expo-haptics'
 import { useRouter } from 'expo-router'
 import { scenarioInsertSchema, scenarios, scenarioType } from '@/db/schema'
 import db from '@/db/db'
+import { toast } from 'sonner-native'
+import CustomToastMsg from './CustomToastMsg'
 
 const ScenarioForm = () => {
   const { theme } = useTheme()
@@ -41,6 +43,9 @@ const ScenarioForm = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     queryClient.invalidateQueries({ queryKey: ['scenarios'] })
     router.back()
+    toast.custom(
+      <CustomToastMsg message={`scenario ${data.eventName} created`} />
+    )
   }
 
   return (

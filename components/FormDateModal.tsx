@@ -40,8 +40,7 @@ const FormDateModal = ({
           style={[
             styles.datePickerBox,
             {
-              backgroundColor:
-                colorScheme === 'dark' ? theme.primary10 : theme.primary1,
+              backgroundColor: theme.accent4,
             },
           ]}
         >
@@ -54,12 +53,8 @@ const FormDateModal = ({
           <DateTimePicker
             mode="date"
             display={Platform.OS === 'ios' ? 'inline' : 'calendar'}
-            accentColor={
-              colorScheme === 'dark' ? theme.primary1 : theme.primary10
-            }
-            textColor={
-              colorScheme === 'dark' ? theme.primary10 : theme.primary1
-            }
+            accentColor={theme.primary10}
+            textColor={theme.primary10}
             minimumDate={new Date()}
             value={expiryDate || new Date()}
             onChange={(event, selectedDate) => {
@@ -76,11 +71,10 @@ const FormDateModal = ({
             style={[
               styles.datePicker,
               {
-                backgroundColor:
-                  colorScheme === 'dark' ? theme.primary10 : theme.primary1,
+                backgroundColor: theme.accent4,
               },
             ]}
-            themeVariant={colorScheme || 'light'}
+            themeVariant="light"
           />
         </Pressable>
       </Pressable>

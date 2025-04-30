@@ -87,47 +87,66 @@ const scenarioPage = () => {
           ),
         }}
       />
-      {scenarios.map((scenario) => (
-        <Pressable
-          key={scenario.id}
-          style={[styles.card, { backgroundColor: theme.primary1 }]}
-          onLongPress={() => {
-            router.navigate({ pathname: '/editScenarioPage', params: { id: scenario.id.toString() } })
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft)
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: fonts.black,
-              fontSize: size.xxxl,
-              color: theme.primary10,
-              marginBottom: 10,
+      {scenarios.length > 0 ? (
+        scenarios.map((scenario) => (
+          <Pressable
+            key={scenario.id}
+            style={[styles.card, { backgroundColor: theme.primary1 }]}
+            onLongPress={() => {
+              router.navigate({
+                pathname: '/editScenarioPage',
+                params: { id: scenario.id.toString() },
+              })
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft)
             }}
           >
-            {scenario.eventName}
-          </Text>
-          <Text
-            style={{
-              fontFamily: fonts.medium,
-              fontSize: size.l,
-              color: theme.primary6,
-              marginBottom: 10,
-            }}
-          >
-            {scenario.remarks}
-          </Text>
+            <Text
+              style={{
+                fontFamily: fonts.black,
+                fontSize: size.xxxl,
+                color: theme.primary10,
+                marginBottom: 10,
+              }}
+            >
+              {scenario.eventName}
+            </Text>
+            <Text
+              style={{
+                fontFamily: fonts.medium,
+                fontSize: size.l,
+                color: theme.primary6,
+                marginBottom: 10,
+              }}
+            >
+              {scenario.remarks}
+            </Text>
 
-          <Text
-            style={{
-              fontFamily: fonts.medium,
-              fontSize: size.xs,
-              color: theme.primary3,
-            }}
-          >
-            PRESS AND HOLD TO EDIT
-          </Text>
-        </Pressable>
-      ))}
+            <Text
+              style={{
+                fontFamily: fonts.medium,
+                fontSize: size.xs,
+                color: theme.primary3,
+              }}
+            >
+              PRESS AND HOLD TO EDIT
+            </Text>
+          </Pressable>
+        ))
+      ) : (
+        <View style={{ flex: 1, backgroundColor: theme.primary2 }}>
+          <View style={{ padding: 12 }}>
+            <Text
+              style={{
+                fontFamily: fonts.medium,
+                fontSize: size.l,
+                color: theme.primary5,
+              }}
+            >
+              Create your first emergency contingency plan
+            </Text>
+          </View>
+        </View>
+      )}
     </ScrollView>
   )
 }
