@@ -23,6 +23,8 @@
       "package": "com.toolboxal.goBagApp",
       "permissions": [
         "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ]
     },
@@ -62,6 +64,12 @@
       "eas": {
         "projectId": "945fa888-4b7c-4e9e-88fc-17419c36e359"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/945fa888-4b7c-4e9e-88fc-17419c36e359"
     }
   }
 }
