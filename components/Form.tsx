@@ -35,7 +35,7 @@ import { useRouter } from 'expo-router'
 import { toast } from 'sonner-native'
 import CustomToastMsg from './CustomToastMsg'
 
-const ALBUM_NAME = 'PreciousLives Album'
+const ALBUM_NAME = 'GoBag Album'
 
 const categoryArr = [
   { type: 'food', label: 'food & water' },
