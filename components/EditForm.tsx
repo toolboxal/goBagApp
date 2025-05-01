@@ -40,7 +40,7 @@ import CustomToastMsg from './CustomToastMsg'
 const ALBUM_NAME = 'PreciousLives Album'
 
 const categoryArr = [
-  { type: 'food', label: 'food &\nwater' },
+  { type: 'food', label: 'food & water' },
   { type: 'medicine', label: 'medicine' },
   { type: 'supplies', label: 'supplies' },
   { type: 'clothing', label: 'clothing' },

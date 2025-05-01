@@ -45,9 +45,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow PreciousLives to access your camera",
-          "microphonePermission": "Allow PreciousLives to access your microphone",
-          "recordAudioAndroid": true
+          "cameraPermission": "Turning on camera access allows you to take photos of the item you want to add to your bag."
         }
       ],
       "expo-font",
