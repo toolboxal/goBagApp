@@ -18,11 +18,14 @@ import { scenarioInsertSchema, scenarios, scenarioType } from '@/db/schema'
 import db from '@/db/db'
 import { toast } from 'sonner-native'
 import CustomToastMsg from './CustomToastMsg'
+import { usePostHog } from 'posthog-react-native'
 
 const ScenarioForm = () => {
   const { theme } = useTheme()
   const router = useRouter()
   const queryClient = useQueryClient()
+
+  const postHog = usePostHog()
 
   const {
     control,
@@ -46,6 +49,7 @@ const ScenarioForm = () => {
     toast.custom(
       <CustomToastMsg message={`scenario ${data.eventName} created`} />
     )
+    postHog.capture('created_scenario')
   }
 
   return (

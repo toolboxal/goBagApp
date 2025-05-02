@@ -34,6 +34,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { toast } from 'sonner-native'
 import CustomToastMsg from './CustomToastMsg'
+import PostHog, { usePostHog } from 'posthog-react-native'
 
 const ALBUM_NAME = 'GoBag Album'
 
@@ -63,6 +64,8 @@ const Form = () => {
   const router = useRouter()
 
   const { theme } = useTheme()
+
+  const postHog = usePostHog()
 
   const {
     control,
@@ -107,6 +110,7 @@ const Form = () => {
     queryClient.invalidateQueries({ queryKey: ['storeItems'] })
     router.navigate('/(tabs)/inventoryPage')
     toast.custom(<CustomToastMsg message="item added to your go bag" />)
+    postHog.capture('added_item')
   }
   // console.log('date expiry', dateExpiry)
   const handleCameraPress = async () => {
@@ -551,6 +555,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 5,
   },
   categoryText: {
     fontFamily: fonts.regular,

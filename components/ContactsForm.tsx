@@ -29,6 +29,7 @@ import PhoneInput, { ICountry } from 'react-native-international-phone-number'
 import { getLocales } from 'expo-localization'
 import { toast } from 'sonner-native'
 import CustomToastMsg from './CustomToastMsg'
+import { usePostHog } from 'posthog-react-native'
 
 const ContactsForm = () => {
   const { regionCode } = getLocales()[0]
@@ -47,6 +48,8 @@ const ContactsForm = () => {
 
   const router = useRouter()
   const queryClient = useQueryClient()
+
+  const postHog = usePostHog()
 
   const {
     control,
@@ -76,6 +79,7 @@ const ContactsForm = () => {
       toast.custom(
         <CustomToastMsg message={`contact for ${data.name} created`} />
       )
+      postHog.capture('created_contact')
     } catch (error) {
       console.error('Error inserting contact:', error)
       alert('Failed to save contact. Please try again.')

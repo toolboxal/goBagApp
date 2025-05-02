@@ -568,6 +568,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 5,
   },
   categoryText: {
     fontFamily: fonts.regular,

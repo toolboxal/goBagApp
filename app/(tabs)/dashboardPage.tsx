@@ -1,4 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  RefreshControl,
+} from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { useTheme } from '@/providers/ThemeProvider'
 import { fonts, size } from '@/constants/font'
@@ -7,6 +14,7 @@ import { Salad, Flashlight, Pill, Shirt, Plus } from 'lucide-react-native'
 import { Tabs, useRouter } from 'expo-router'
 import * as Haptics from 'expo-haptics'
 import { differenceInDays } from 'date-fns'
+import { useState } from 'react'
 
 const categoryArr = [
   { type: 'food', label: 'food &\nwater' },
@@ -17,6 +25,7 @@ const categoryArr = [
 
 const dashboardPage = () => {
   const { theme } = useTheme()
+  const [refreshing, setRefreshing] = useState(false)
   const router = useRouter()
   const categoryIcons = {
     food: <Salad size={30} color={theme.accent6} strokeWidth={2} />,
@@ -33,7 +42,7 @@ const dashboardPage = () => {
     },
   })
 
-  const { data: contacts } = useQuery({
+  const { data: contacts, refetch: refetchContacts } = useQuery({
     queryKey: ['contacts'],
     queryFn: async () => {
       const result = await db.query.contacts.findMany()
@@ -41,13 +50,22 @@ const dashboardPage = () => {
     },
   })
 
-  const { data: scenarios } = useQuery({
+  const { data: scenarios, refetch: refetchScenarios } = useQuery({
     queryKey: ['scenarios'],
     queryFn: async () => {
       const result = await db.query.scenarios.findMany()
       return result || []
     },
   })
+
+  const onRefresh = async () => {
+    setRefreshing(true)
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    await refetch()
+    await refetchContacts()
+    await refetchScenarios()
+    setRefreshing(false)
+  }
 
   const expiringSoon = data.filter((item) => {
     if (item.dateExpiry && item.category === 'food') {
@@ -86,6 +104,14 @@ const dashboardPage = () => {
     <ScrollView
       contentContainerStyle={{ padding: 12 }}
       style={{ flex: 1, backgroundColor: theme.primary2 }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor={theme.primary5}
+          colors={[theme.primary5]}
+        />
+      }
     >
       <Tabs.Screen
         options={{
