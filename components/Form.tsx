@@ -162,7 +162,9 @@ const Form = () => {
       if (photoData) {
         // Save photo to media library
         const asset = await MediaLibrary.createAssetAsync(photoData.uri)
-        setPhoto(asset.uri)
+        // Use original URI for display on Android, as media library URI may not work with Image component
+        const displayUri = Platform.OS === 'android' ? photoData.uri : asset.uri
+        setPhoto(displayUri)
         // Try to get the album
         let album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
         if (album == null) {
@@ -293,14 +295,16 @@ const Form = () => {
                     >
                       <DropdownMenu.ItemTitle>Camera</DropdownMenu.ItemTitle>
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item
-                      key="library"
-                      onSelect={handlePhotoLibraryPress}
-                    >
-                      <DropdownMenu.ItemTitle>
-                        Photo Library
-                      </DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
+                    {Platform.OS === 'ios' && (
+                      <DropdownMenu.Item
+                        key="library"
+                        onSelect={handlePhotoLibraryPress}
+                      >
+                        <DropdownMenu.ItemTitle>
+                          Photo Library
+                        </DropdownMenu.ItemTitle>
+                      </DropdownMenu.Item>
+                    )}
                   </DropdownMenu.Content>
                 </DropdownMenu.Root>
               </View>
@@ -329,6 +333,7 @@ const Form = () => {
                         category.type === selectedCategory
                           ? theme.primary1
                           : theme.primary7,
+                      fontSize: Platform.OS === 'ios' ? size.m : size.s,
                     },
                   ]}
                 >
@@ -559,7 +564,6 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontFamily: fonts.regular,
-    fontSize: size.m,
     textAlign: 'center',
   },
   formContainer: {

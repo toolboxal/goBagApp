@@ -1,5 +1,5 @@
 import { useTheme } from '@/providers/ThemeProvider'
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
   Pressable,
@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
 } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import { useQuery } from '@tanstack/react-query'
@@ -18,8 +19,10 @@ import { contacts, contactsSelect } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ContactModal from '@/components/ContactModal'
+import { Plus } from 'lucide-react-native'
 
 const ContactsPage = () => {
+  const router = useRouter()
   const { theme } = useTheme()
   const [refreshing, setRefreshing] = useState(false)
   const [searchBarQuery, setSearchBarQuery] = useState<string>('')
@@ -55,25 +58,59 @@ const ContactsPage = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top']}>
-      <Stack.Screen
-        options={{
-          headerSearchBarOptions: {
-            tintColor: theme.primary5,
-            textColor: theme.primary1,
-            hintTextColor: theme.primary6,
-            placeholder: 'search...',
-            barTintColor: theme.primary4,
-            onChangeText: (event) => {
-              const text = event.nativeEvent.text
-              setSearchBarQuery(text)
-              // console.log(text)
+      {Platform.OS === 'ios' && (
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <Pressable
+                pressRetentionOffset={{
+                  bottom: 30,
+                  left: 30,
+                  right: 30,
+                  top: 30,
+                }}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  // paddingRight: 5,
+                  gap: 1,
+                }}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+                  router.push('/contactsFormPage')
+                }}
+              >
+                <Text
+                  style={{
+                    color: theme.primary10,
+                    fontFamily: fonts.medium,
+                    fontSize: size.xl,
+                  }}
+                >
+                  Add
+                </Text>
+                <Plus color={theme.primary10} size={22} strokeWidth={1.5} />
+              </Pressable>
+            ),
+            headerSearchBarOptions: {
+              tintColor: theme.primary5,
+              textColor: theme.primary1,
+              hintTextColor: theme.primary6,
+              placeholder: 'search...',
+              barTintColor: theme.primary4,
+              onChangeText: (event) => {
+                const text = event.nativeEvent.text
+                setSearchBarQuery(text)
+                // console.log(text)
+              },
+              onCancelButtonPress: () => {
+                setSearchBarQuery('')
+              },
             },
-            onCancelButtonPress: () => {
-              setSearchBarQuery('')
-            },
-          },
-        }}
-      />
+          }}
+        />
+      )}
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.container, { backgroundColor: theme.primary2 }]}
@@ -89,10 +126,38 @@ const ContactsPage = () => {
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
       >
-        <View
+        <Pressable
           style={{
             flexDirection: 'row',
-            alignItems: 'center',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-end',
+            gap: 1,
+            // backgroundColor: 'green',
+            padding: 10,
+            borderRadius: 12,
+            borderWidth: 1,
+            borderColor: theme.primary5,
+            marginBottom: 10,
+          }}
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+            router.push('/contactsFormPage')
+          }}
+        >
+          <Text
+            style={{
+              color: theme.primary10,
+              fontFamily: fonts.medium,
+              fontSize: size.l,
+            }}
+          >
+            Add Contact
+          </Text>
+        </Pressable>
+        <View
+          style={{
+            flexDirection: 'column',
+            alignItems: 'flex-start',
             justifyContent: 'center',
             backgroundColor: theme.primary1,
             padding: 12,

@@ -340,6 +340,7 @@ const Form = ({ selectedPerson }: Props) => {
                         category.type === selectedCategory
                           ? theme.primary1
                           : theme.primary7,
+                      fontSize: Platform.OS === 'ios' ? size.m : size.s,
                     },
                   ]}
                 >
@@ -572,7 +573,6 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontFamily: fonts.regular,
-    fontSize: size.m,
     textAlign: 'center',
   },
   formContainer: {
