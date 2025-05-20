@@ -2,7 +2,7 @@
   "expo": {
     "name": "preciousLives",
     "slug": "goBagApp",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -66,7 +66,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "01e3f4af-e4f1-4757-9eb6-c1113e83dddc"
+        "projectId": "945fa888-4b7c-4e9e-88fc-17419c36e359"
       }
     },
     "runtimeVersion": {
