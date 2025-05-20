@@ -560,7 +560,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 5,
+    padding: 4,
   },
   categoryText: {
     fontFamily: fonts.regular,

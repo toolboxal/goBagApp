@@ -276,6 +276,7 @@ const ContactsPage = () => {
                   disableText={true}
                   iconStyle={{ borderColor: theme.primary10 }}
                   innerIconStyle={{ borderWidth: 1 }}
+                  isChecked={contact.accounted}
                   textStyle={{
                     fontFamily: fonts.bold,
                     fontSize: size.s,

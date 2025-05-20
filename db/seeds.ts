@@ -34,7 +34,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 5,
     dateExpiry: add(new Date(), { months: 6 }).toISOString(),
     category: 'food',
-    notes: '5 honey chocolate bars.',
+    notes: 'SAMPLE: 5 honey chocolate bars.',
     photoUrl: null,
   },
   {
@@ -42,7 +42,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 4,
     dateExpiry: add(new Date(), { months: 12 }).toISOString(),
     category: 'food',
-    notes: '300ml mineral water',
+    notes: 'SAMPLE: 300ml mineral water',
     photoUrl: null,
   },
   {
@@ -50,7 +50,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 2,
     dateExpiry: add(new Date(), { months: 24 }).toISOString(),
     category: 'food',
-    notes: '200g tuna in olive oil.',
+    notes: 'SAMPLE: 200g tuna in olive oil.',
     photoUrl: null,
   },
   {
@@ -58,7 +58,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 1,
     dateExpiry: add(new Date(), { weeks: 5 }).toISOString(),
     category: 'food',
-    notes: "Simply can't live without it.",
+    notes: "SAMPLE: Simply can't live without it.",
     photoUrl: null,
   },
   {
@@ -66,7 +66,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 6,
     dateExpiry: add(new Date(), { days: 15 }).toISOString(),
     category: 'food',
-    notes: '6 packets of IndoMie',
+    notes: 'SAMPLE: 6 packets of IndoMie',
     photoUrl: null,
   },
   {
@@ -74,7 +74,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 1,
     dateExpiry: add(new Date(), { hours: 20 }).toISOString(),
     category: 'food',
-    notes: 'bought during a sales',
+    notes: 'SAMPLE: bought during a sales',
     photoUrl: null,
   },
   {
@@ -82,7 +82,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 12,
     dateExpiry: add(new Date(), { hours: 12 }).toISOString(),
     category: 'medicine',
-    notes: '1 slab of Paracetamol for fever relief',
+    notes: 'SAMPLE: 1 slab of Paracetamol for fever relief',
     photoUrl: null,
   },
   {
@@ -90,7 +90,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 1,
     dateExpiry: add(new Date(), { months: 15 }).toISOString(),
     category: 'medicine',
-    notes: '1 roll',
+    notes: 'SAMPLE: 1 roll',
     photoUrl: null,
   },
   {
@@ -98,7 +98,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 1,
     dateExpiry: add(new Date(), { months: 12 }).toISOString(),
     category: 'supplies',
-    notes: '1 canister, to check every 12 months',
+    notes: 'SAMPLE: 1 canister, to check every 12 months',
     photoUrl: null,
   },
   {
@@ -106,7 +106,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 1,
     dateExpiry: add(new Date(), { months: 12 }).toISOString(),
     category: 'supplies',
-    notes: '1 large map of town. Keep updated copy of map.',
+    notes: 'SAMPLE: 1 large map of town. Keep updated copy of map.',
     photoUrl: null,
   },
   {
@@ -114,7 +114,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 6,
     dateExpiry: add(new Date(), { days: 25 }).toISOString(),
     category: 'supplies',
-    notes: 'Batteries for flashlights etc...',
+    notes: 'SAMPLE: Batteries for flashlights etc...',
     photoUrl: null,
   },
   {
@@ -122,7 +122,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 2,
     dateExpiry: add(new Date(), { months: 3 }).toISOString(),
     category: 'clothing',
-    notes: '2 extra pairs for cold weather',
+    notes: 'SAMPLE: 2 extra pairs for cold weather',
     photoUrl: null,
   },
   {
@@ -130,7 +130,7 @@ export const storeItemsSeed: storeItemSeed[] = [
     quantity: 1,
     dateExpiry: add(new Date(), { months: 24 }).toISOString(),
     category: 'clothing',
-    notes: 'for outdoor survival',
+    notes: 'SAMPLE: for outdoor survival',
     photoUrl: null,
   },
 ]
@@ -176,15 +176,15 @@ export const contactsSeed: contactSeed[] = [
 export const scenarioSeed: scenarioSeed[] = [
   {
     eventName: 'Fire',
-    remarks: `1. Grab the GoBag.\n2. Call emergency services.\n3. Evacuate to a safe location.\n4. Stay safe.`,
+    remarks: `SAMPLE:\n1. Grab the GoBag.\n2. Call emergency services.\n3. Evacuate to a safe location.\n4. Stay safe.`,
   },
   {
     eventName: 'Hurricane Season',
-    remarks: `1. Make sure enough gasoline.\n2. Grab the GoBag.\n3. Leave the area immediately.\n4. Follow evacuation orders.`,
+    remarks: `SAMPLE:\n1. Make sure enough gasoline.\n2. Grab the GoBag.\n3. Leave the area immediately.\n4. Follow evacuation orders.`,
   },
   {
     eventName: 'Violent Person',
     remarks:
-      'Do not approach or engage the person. Look for the nearest exit. Extend help and warning to others. Call the cops if you are threatened.',
+      'SAMPLE:\nDo not approach or engage the person. Look for the nearest exit. Extend help and warning to others. Call the cops if you are threatened.',
   },
 ]
