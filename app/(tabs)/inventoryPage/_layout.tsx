@@ -11,7 +11,7 @@ const InventoryPageLayout = () => {
         options={{
           title: 'Inventory',
           presentation: 'card',
-          headerLargeTitle: true,
+          // headerLargeTitle: true,
           headerSearchBarOptions: {
             placeholder: 'search...',
             barTintColor: theme.primary5,
@@ -23,12 +23,12 @@ const InventoryPageLayout = () => {
           headerTitleStyle: {
             fontFamily: fonts.bold,
             fontSize: size.l,
-            color: theme.primary10,
+            color: theme.primary9,
           },
           headerLargeTitleStyle: {
             fontFamily: fonts.bold,
             fontSize: size.xxxl,
-            color: theme.primary10,
+            color: theme.primary9,
           },
           headerShadowVisible: false,
         }}

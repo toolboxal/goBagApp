@@ -39,7 +39,7 @@ import PostHog, { usePostHog } from 'posthog-react-native'
 const ALBUM_NAME = 'GoBag Album'
 
 const categoryArr = [
-  { type: 'food', label: 'food & water' },
+  { type: 'food', label: `food &\nwater` },
   { type: 'medicine', label: 'medicine' },
   { type: 'supplies', label: 'supplies' },
   { type: 'clothing', label: 'clothing' },
@@ -53,7 +53,7 @@ const Form = () => {
   const [openDateModal, setOpenDateModal] = useState(false)
   const [dateExpiry, setDateExpiry] = useState(add(today, { months: 3 }))
   const [durationCalc, setDurationCalc] = useState(
-    formatDistanceToNow(new Date(dateExpiry))
+    formatDistanceToNow(new Date(dateExpiry)),
   )
   const [permission, requestPermission] = useCameraPermissions()
   const [showCamera, setShowCamera] = useState(false)

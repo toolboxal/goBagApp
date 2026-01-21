@@ -93,8 +93,9 @@ const ContactsPage = () => {
               </Pressable>
             ),
             headerSearchBarOptions: {
+              placement: 'stacked',
               tintColor: theme.primary5,
-              textColor: theme.primary1,
+              textColor: theme.primary9,
               hintTextColor: theme.primary6,
               placeholder: 'search...',
               barTintColor: theme.primary4,
@@ -126,34 +127,36 @@ const ContactsPage = () => {
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
       >
-        <Pressable
-          style={{
-            flexDirection: 'row',
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
-            gap: 1,
-            // backgroundColor: 'green',
-            padding: 10,
-            borderRadius: 12,
-            borderWidth: 1,
-            borderColor: theme.primary5,
-            marginBottom: 10,
-          }}
-          onPress={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-            router.push('/contactsFormPage')
-          }}
-        >
-          <Text
+        {Platform.OS === 'android' && (
+          <Pressable
             style={{
-              color: theme.primary10,
-              fontFamily: fonts.medium,
-              fontSize: size.l,
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
+              gap: 1,
+              // backgroundColor: 'green',
+              padding: 10,
+              borderRadius: 12,
+              borderWidth: 1,
+              borderColor: theme.primary5,
+              marginBottom: 10,
+            }}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+              router.push('/contactsFormPage')
             }}
           >
-            Add Contact
-          </Text>
-        </Pressable>
+            <Text
+              style={{
+                color: theme.primary10,
+                fontFamily: fonts.medium,
+                fontSize: size.l,
+              }}
+            >
+              Add Contact
+            </Text>
+          </Pressable>
+        )}
         <View
           style={{
             flexDirection: 'column',
@@ -248,7 +251,7 @@ const ContactsPage = () => {
               <View
                 style={{
                   backgroundColor: priorityArr.find(
-                    (item) => item.type === contact.priority
+                    (item) => item.type === contact.priority,
                   )?.color,
                   flexDirection: 'row',
                   alignItems: 'flex-start',

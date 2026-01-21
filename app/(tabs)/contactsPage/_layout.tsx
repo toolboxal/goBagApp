@@ -16,7 +16,7 @@ const ContactsLayout = () => {
         options={{
           title: 'Contacts',
           presentation: 'card',
-          headerLargeTitle: true,
+          // headerLargeTitle: true,
           headerStyle: {
             backgroundColor: theme.primary2,
           },

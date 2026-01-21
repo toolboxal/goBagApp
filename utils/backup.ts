@@ -1,4 +1,5 @@
 import * as FileSystem from 'expo-file-system'
+import { File, Directory, Paths } from 'expo-file-system'
 import { shareAsync } from 'expo-sharing'
 import db from '@/db/db'
 import { storeItems, scenarios, contacts } from '@/db/schema'
@@ -46,21 +47,15 @@ export async function createBackup() {
     const dateStr = format(new Date(), 'yyyy-MM-dd-HHmmss')
     const backupFileName = `precious-lives-backup-${dateStr}.json`
 
-    // Use the standard FileSystem API which is more reliable for sharing
-    const fileUri = `${FileSystem.documentDirectory}${backupFileName}`
+    // Use the new FileSystem API
+    const file = new File(Paths.document, backupFileName)
+    file.write(JSON.stringify(backupData, null, 2))
 
-    // Write the file
-    await FileSystem.writeAsStringAsync(
-      fileUri,
-      JSON.stringify(backupData, null, 2),
-      { encoding: FileSystem.EncodingType.UTF8 }
-    )
-
-    console.log(`Backup created at: ${fileUri}`)
+    console.log(`Backup created at: ${file.uri}`)
 
     // Share the file
     if (await Sharing.isAvailableAsync()) {
-      await Sharing.shareAsync(fileUri, {
+      await Sharing.shareAsync(file.uri, {
         mimeType: 'application/json',
         dialogTitle: 'Share Precious Lives Backup',
         UTI: 'public.json',
@@ -85,9 +80,8 @@ export async function restoreFromBackup() {
     }
 
     const uri = result.assets[0].uri
-    const fileContent = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.UTF8,
-    })
+    const file = new File(uri)
+    const fileContent = await file.text()
     const backupData: BackupData = JSON.parse(fileContent)
 
     // Validate backup format

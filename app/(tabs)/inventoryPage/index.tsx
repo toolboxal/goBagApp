@@ -64,7 +64,7 @@ const InventoryPage = () => {
       medicine: [] as typeof data,
       supplies: [] as typeof data,
       clothing: [] as typeof data,
-    }
+    },
   )
 
   // console.log(groupedData)
@@ -94,8 +94,9 @@ const InventoryPage = () => {
         options={{
           headerTitle: 'Go Bag',
           headerSearchBarOptions: {
+            placement: 'stacked',
             tintColor: theme.primary5,
-            textColor: theme.primary1,
+            textColor: theme.primary9,
             hintTextColor: theme.primary6,
             placeholder: 'search...',
             barTintColor: theme.primary4,
@@ -150,7 +151,7 @@ const InventoryPage = () => {
                 {items.map((item) => {
                   const diffInDays = differenceInDays(
                     new Date(item.dateExpiry!),
-                    new Date()
+                    new Date(),
                   )
                   // console.log(diffInDays)
                   return (
@@ -163,8 +164,8 @@ const InventoryPage = () => {
                             diffInDays <= 0
                               ? theme.warning3
                               : diffInDays < 30
-                              ? theme.warning2
-                              : theme.primary1,
+                                ? theme.warning2
+                                : theme.primary1,
                         },
                       ]}
                       onPress={() => {
@@ -200,7 +201,7 @@ const InventoryPage = () => {
                                   ? 'expires in '
                                   : 'replace in '
                               }${formatDistanceToNow(
-                                new Date(item.dateExpiry!)
+                                new Date(item.dateExpiry!),
                               )}`}
                         </Text>
                         <Text
@@ -215,8 +216,8 @@ const InventoryPage = () => {
                           {item.notes && item.notes.length > 30
                             ? item.notes.slice(0, 30) + '...'
                             : item.notes
-                            ? item.notes
-                            : 'no additional notes'}
+                              ? item.notes
+                              : 'no additional notes'}
                         </Text>
                       </View>
                       <View style={{ alignItems: 'flex-end', gap: 3 }}>
@@ -227,7 +228,7 @@ const InventoryPage = () => {
                             onError={(e) =>
                               console.log(
                                 'Image load error:',
-                                e.nativeEvent.error
+                                e.nativeEvent.error,
                               )
                             }
                           />
